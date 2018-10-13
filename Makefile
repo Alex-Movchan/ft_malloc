@@ -38,6 +38,7 @@ clean:
 
 
 fclean: clean
+	rm -f $(LINK_NAME)
 	@rm -f $(NAME)
 
 re: fclean all
