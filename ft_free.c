@@ -1,6 +1,6 @@
 #include "ft_malloc.h"
 
-static void	ft_joinblock(block_t *block1, block_t *block2)
+static bool	ft_joinblock(block_t *block1, block_t *block2)
 {
 	size_t	size_head;
 
@@ -11,11 +11,24 @@ static void	ft_joinblock(block_t *block1, block_t *block2)
 		if (block2->next)
 			block2->next->prev = block1;
 		block1->next = block2->next;
+		return (true);
 	}
+	return (false);
 }
 
 void	ft_free_on_map(block_t *block)
 {
+	if (g_alloc_map.type == LARGE)
+	{
+		if (block->next)
+			block->next->prev = block->prev;
+		if (block->prev)
+			block->prev->next = block->next;
+		if (g_alloc_map.map[LARGE] == block)
+			g_alloc_map.map[LARGE] = block->next;
+		munmap(block, block->size + ft_memory_aligning(sizeof(block_t), STANDART_MEMORY_ALIGNING));
+		return ;
+	}
 	block->status = FREE;
 	if (block->next && block->next->status == FREE)
 		ft_joinblock(block, block->next);

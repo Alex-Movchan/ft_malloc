@@ -42,7 +42,7 @@ void		*malloc(size_t size)
 		pthread_mutex_unlock(&g_mutex);
 		return (NULL);
 	}
-	if (alloc->size > aligning_size)
+	if (alloc->size > aligning_size && g_alloc_map.type != LARGE)
 		fr_splitmap(&alloc, aligning_size);
 	alloc->status = ALLOC;
 	pthread_mutex_unlock(&g_mutex);

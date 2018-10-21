@@ -7,11 +7,12 @@
 # include <stdbool.h>
 # include <pthread.h>
 
-# define TINY_MAX_SIZE 352
+# define TINY_MAX_SIZE 1024
 # define SMALL_MAX_SIZE 4064
 # define STANDART_MEMORY_ALIGNING 16
 # define HEX_BASE "0123456789ABCDEF"
 # define HEX 16
+# define ALLOCATIONS 100
 
 typedef enum			s_status
 {
@@ -38,7 +39,6 @@ typedef struct			s_alloc_map
 {
 	block_t				*map[3];
 	block_type_t		type;
-//	bool				init;
 }						alloc_map_t;
 
 alloc_map_t				g_alloc_map;
