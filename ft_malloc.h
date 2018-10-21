@@ -7,8 +7,8 @@
 # include <stdbool.h>
 # include <pthread.h>
 
-# define TINY_MAX_SIZE 1024
-# define SMALL_MAX_SIZE 4064
+# define TINY_MAX_SIZE (1 << 12)
+# define SMALL_MAX_SIZE (1 << 20)
 # define STANDART_MEMORY_ALIGNING 16
 # define HEX_BASE "0123456789ABCDEF"
 # define HEX 16
