@@ -16,8 +16,8 @@ static void	fr_splitmap(block_t **map, size_t size)
 {
 	block_t	*alloc;
 
-	alloc = (block_t*)((char*)(*map) + size + ft_memory_aligning(sizeof(block_t), STANDART_MEMORY_ALIGNING));
-	alloc->size = (*map)->size - size - ft_memory_aligning(sizeof(block_t), STANDART_MEMORY_ALIGNING);
+	alloc = (block_t*)((char*)(*map) + size + ft_memory_aligning(sizeof(block_t), HEX));
+	alloc->size = (*map)->size - size - ft_memory_aligning(sizeof(block_t), HEX);
 	alloc->status = FREE;
 	alloc->prev = *map;
 	if ((*map)->next)
@@ -35,7 +35,7 @@ void		*malloc(size_t size)
 	if ((int)size < 0)
 		return (NULL);
 	pthread_mutex_lock(&g_mutex);
-	aligning_size = ft_memory_aligning(size, STANDART_MEMORY_ALIGNING);
+	aligning_size = ft_memory_aligning(size, HEX);
 	ft_init_type(aligning_size);
 	if (!(alloc = ft_find_place(&g_alloc_map.map[g_alloc_map.type], aligning_size)))
 	{
@@ -46,5 +46,5 @@ void		*malloc(size_t size)
 		fr_splitmap(&alloc, aligning_size);
 	alloc->status = ALLOC;
 	pthread_mutex_unlock(&g_mutex);
-	return ((void*)alloc + ft_memory_aligning(sizeof(block_t), STANDART_MEMORY_ALIGNING));
+	return ((void*)alloc + ft_memory_aligning(sizeof(block_t), HEX));
 }

@@ -9,10 +9,10 @@
 
 # define TINY_MAX_SIZE (1 << 12)
 # define SMALL_MAX_SIZE (1 << 20)
-# define STANDART_MEMORY_ALIGNING 16
 # define HEX_BASE "0123456789ABCDEF"
 # define HEX 16
 # define ALLOCATIONS 100
+#define COUNT_ZONE 3
 
 typedef enum			s_status
 {
@@ -37,13 +37,14 @@ typedef struct			s_block
 
 typedef struct			s_alloc_map
 {
-	block_t				*map[3];
+	block_t				*map[COUNT_ZONE];
 	block_type_t		type;
 }						alloc_map_t;
 
 alloc_map_t				g_alloc_map;
 extern pthread_mutex_t	g_mutex;
 
+void					show_alloc_mem(void);
 block_t					*ft_find_place(block_t **alloc, size_t size);
 size_t					ft_memory_aligning(size_t size, size_t alignment);
 block_t					*ft_find_in_map(void *ptr);
@@ -56,8 +57,10 @@ void					ft_putstr(char const *s);
 void					*ft_memmove(void *dst, const void *src, size_t len);
 size_t					ft_strlen(char const *s);
 void					ft_putnbr(size_t n);
-void					ft_puthex(unsigned long long int hex);
+void					ft_puthexaddr(unsigned long long int hex);
 void					ft_putchar(char c);
-void					show_alloc_mem(void);
+void					show_alloc_mem_hex(void);
+int						ft_isprint(int c);
+void					ft_putatohex(int c);
 
 #endif

@@ -9,7 +9,7 @@ static void	*ft_realocation(block_t *block, size_t size)
 	pthread_mutex_unlock(&g_mutex);
 	new_ptr = malloc(size);
 	ft_memmove(new_ptr, (void*)block + ft_memory_aligning(sizeof(block_t),
-								STANDART_MEMORY_ALIGNING), block->size);
+					HEX), block->size);
 	pthread_mutex_lock(&g_mutex);
 	g_alloc_map.type = old_type;
 	ft_free_on_map(block);
@@ -31,7 +31,7 @@ void	*realloc(void *ptr, size_t size)
 		pthread_mutex_unlock(&g_mutex);
 		return (NULL);
 	}
-	if (ft_memory_aligning(size, STANDART_MEMORY_ALIGNING) <= alloc->size)
+	if (ft_memory_aligning(size, HEX) <= alloc->size)
 	{
 		pthread_mutex_unlock(&g_mutex);
 		return (ptr);

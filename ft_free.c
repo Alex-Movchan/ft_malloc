@@ -4,7 +4,7 @@ static bool	ft_joinblock(block_t *block1, block_t *block2)
 {
 	size_t	size_head;
 
-	size_head = ft_memory_aligning(sizeof(block_t), STANDART_MEMORY_ALIGNING);
+	size_head = ft_memory_aligning(sizeof(block_t), HEX);
 	if ((char *)block1 + size_head + block1->size == (char *)block2)
 	{
 		block1->size += (size_head + block2->size);
@@ -26,7 +26,7 @@ void	ft_free_on_map(block_t *block)
 			block->prev->next = block->next;
 		if (g_alloc_map.map[LARGE] == block)
 			g_alloc_map.map[LARGE] = block->next;
-		munmap(block, block->size + ft_memory_aligning(sizeof(block_t), STANDART_MEMORY_ALIGNING));
+		munmap(block, block->size + ft_memory_aligning(sizeof(block_t), HEX));
 		return ;
 	}
 	block->status = FREE;

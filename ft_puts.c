@@ -28,7 +28,7 @@ void	ft_putnbr(size_t n)
 		ft_putchar(n + '0');
 }
 
-void	ft_puthex(unsigned long long int hex)
+void	ft_puthexaddr(unsigned long long int hex)
 {
 	if (0 == hex / HEX)
 	{
@@ -37,7 +37,7 @@ void	ft_puthex(unsigned long long int hex)
 	}
 	else
 	{
-		ft_puthex(hex / HEX);
+		ft_puthexaddr(hex / HEX);
 		ft_putchar(HEX_BASE[hex % HEX]);
 	}
 }

@@ -19,7 +19,7 @@ static block_t	*ft_map_place(size_t size, block_t **alloc)
 	if ((new_block = mmap(0, size_page, PROT_READ | PROT_WRITE, MAP_ANON | MAP_PRIVATE, -1, 0)) == MAP_FAILED)
 		return (NULL);
 	new_block->status = FREE;
-	new_block->size = size_page - ft_memory_aligning(sizeof(block_t), STANDART_MEMORY_ALIGNING);
+	new_block->size = size_page - ft_memory_aligning(sizeof(block_t), HEX);
 	new_block->next = NULL;
 	new_block->prev = *alloc;
 	if (*alloc)
@@ -61,8 +61,8 @@ block_t	*ft_find_in_map(void *ptr)
 	int		i;
 
 	i = -1;
-	ptr1 = ptr - ft_memory_aligning(sizeof(block_t), STANDART_MEMORY_ALIGNING);
-	while (++i < 3)
+	ptr1 = ptr - ft_memory_aligning(sizeof(block_t), HEX);
+	while (++i < COUNT_ZONE)
 	{
 		block = g_alloc_map.map[i];
 		while (block)

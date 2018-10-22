@@ -19,9 +19,11 @@ int main()
     ptr3 = ft_malloc(34);
     show_alloc_mem();
     free(ptr3);
-    ptr2 = realloc(ptr2, 130);
-    for (int i = 0; i < 130; i++)
-        ptr2[i] = 'b';
+    if ((ptr2 = realloc(ptr2 + 1, 130))) {
+        for (int i = 0; i < 130; i++)
+            ptr2[i] = 'b';
+    }
     free(ptr2);
     show_alloc_mem();
+    show_alloc_mem_hex();
 }

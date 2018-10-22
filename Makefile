@@ -15,7 +15,9 @@ SRC =  tool.c \
         ft_memmove.c \
         ft_malloc.c \
         ft_free.c \
-        find_place.c
+	ft_show_alloc_mem.c \
+      	ft_show_alloc_mem_hex.c \
+	find_place.c
 
 OBJ = $(SRC:.c=.o)
 
