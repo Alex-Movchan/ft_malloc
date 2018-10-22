@@ -5,7 +5,7 @@ static void ft_print_ascii(unsigned char *str, size_t size)
     int     i;
 
     i = -1;
-    while (++i < HEX && i < size)
+    while (++i < HEX && i < (int)size)
     {
         if (ft_isprint(str[i]))
             ft_putchar(str[i]);
@@ -20,10 +20,10 @@ static int  ft_print_hex(unsigned char *str, size_t size)
     int     i;
 
     i = -1;
-    while (++i < HEX && i < size)
+    while (++i < HEX && i < (int)size)
     {
         ft_putatohex(str[i]);
-        if (i < HEX - 1 && i < size - 1)
+        if (i < HEX - 1 && i < (int)size - 1)
             ft_putchar(' ');
     }
     return (i);
@@ -35,7 +35,7 @@ static void ft_print_dump_hex(unsigned char *str, size_t size)
     int     count;
 
     i = 0;
-    while (i < size)
+    while (i < (int)size)
     {
         ft_puthexaddr((unsigned long long)str + i);
         ft_putstr(" : ");
@@ -61,7 +61,7 @@ static void ft_display_mem_hex(block_t *block)
 void    show_alloc_mem_hex(void)
 {
     static char	*zon[3];
-    int			i;
+    int		i;
 
     zon[0] = "TINY";
     zon[1] = "SMALL";
