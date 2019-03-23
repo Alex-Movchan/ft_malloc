@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_show_alloc_mem.c                                :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: amovchan <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/03/23 19:56:17 by amovchan          #+#    #+#             */
+/*   Updated: 2019/03/23 19:57:41 by amovchan         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ft_malloc.h"
 
-static size_t	ft_display_zone(block_t *block)
+static size_t	ft_display_zone(t_block *block)
 {
 	size_t	total;
 	char	*start;
@@ -11,8 +23,9 @@ static size_t	ft_display_zone(block_t *block)
 	{
 		if (block->status == ALLOC)
 		{
-			start = (char *)block + ft_memory_aligning(sizeof(block_t), HEX);
-			end = (char *)block + block->size + ft_memory_aligning(sizeof(block_t), HEX);
+			start = (char *)block + ft_memory_aligning(sizeof(t_block), HEX);
+			end = (char *)block + block->size + ft_memory_aligning(
+				sizeof(t_block), HEX);
 			ft_puthexaddr((unsigned long long)start);
 			ft_putstr(" - ");
 			ft_puthexaddr((unsigned long long)end);
@@ -26,7 +39,7 @@ static size_t	ft_display_zone(block_t *block)
 	return (total);
 }
 
-static size_t	ft_display_memmap(block_t *block)
+static size_t	ft_display_memmap(t_block *block)
 {
 	if (!block)
 	{
@@ -40,7 +53,7 @@ static size_t	ft_display_memmap(block_t *block)
 	return (ft_display_zone(block));
 }
 
-void	show_alloc_mem(void)
+void			show_alloc_mem(void)
 {
 	static char	*zon[COUNT_ZONE];
 	size_t		total;

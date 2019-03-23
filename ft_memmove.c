@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_memmove.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: amovchan <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/03/23 19:53:01 by amovchan          #+#    #+#             */
+/*   Updated: 2019/03/23 19:53:28 by amovchan         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ft_malloc.h"
 
 void	*ft_memcpy(void *dst, const void *src, size_t n)
@@ -11,6 +23,7 @@ void	*ft_memcpy(void *dst, const void *src, size_t n)
 		*d++ = *s++;
 	return (dst);
 }
+
 void	*ft_memcpy_rev(void *dst, const void *src, size_t n)
 {
 	char	*d;

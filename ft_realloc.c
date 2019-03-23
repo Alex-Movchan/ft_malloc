@@ -1,14 +1,26 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_realloc.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: amovchan <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/03/23 19:55:03 by amovchan          #+#    #+#             */
+/*   Updated: 2019/03/23 20:08:00 by amovchan         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ft_malloc.h"
 
-static void	*ft_realocation(block_t *block, size_t size)
+static void	*ft_realocation(t_block *block, size_t size)
 {
-	void			*new_ptr;
-	block_type_t	old_type;
+	void				*new_ptr;
+	t_block_type		old_type;
 
 	old_type = g_alloc_map.type;
 	pthread_mutex_unlock(&g_mutex);
 	new_ptr = malloc(size);
-	ft_memmove(new_ptr, (void*)block + ft_memory_aligning(sizeof(block_t),
+	ft_memmove(new_ptr, (void*)block + ft_memory_aligning(sizeof(t_block),
 					HEX), block->size);
 	pthread_mutex_lock(&g_mutex);
 	g_alloc_map.type = old_type;
@@ -17,9 +29,9 @@ static void	*ft_realocation(block_t *block, size_t size)
 	return (new_ptr);
 }
 
-void	*realloc(void *ptr, size_t size)
+void		*realloc(void *ptr, size_t size)
 {
-	block_t	*alloc;
+	t_block	*alloc;
 
 	if ((int)size < 0)
 		return (NULL);

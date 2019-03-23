@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_malloc.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: amovchan <amovchan@student.unit.ua>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/03/23 19:07:13 by amovchan          #+#    #+#             */
+/*   Updated: 2019/03/23 20:08:37 by amovchan         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ft_malloc.h"
 
 pthread_mutex_t	g_mutex = PTHREAD_MUTEX_INITIALIZER;
@@ -12,12 +24,14 @@ static void	ft_init_type(size_t size)
 		g_alloc_map.type = LARGE;
 }
 
-static void	fr_splitmap(block_t **map, size_t size)
+static void	fr_splitmap(t_block **map, size_t size)
 {
-	block_t	*alloc;
+	t_block		*alloc;
 
-	alloc = (block_t*)((char*)(*map) + size + ft_memory_aligning(sizeof(block_t), HEX));
-	alloc->size = (*map)->size - size - ft_memory_aligning(sizeof(block_t), HEX);
+	alloc = (t_block*)((char*)(*map) + size +
+			ft_memory_aligning(sizeof(t_block), HEX));
+	alloc->size = (*map)->size - size -
+		ft_memory_aligning(sizeof(t_block), HEX);
 	alloc->status = FREE;
 	alloc->prev = *map;
 	if ((*map)->next)
@@ -30,14 +44,15 @@ static void	fr_splitmap(block_t **map, size_t size)
 void		*malloc(size_t size)
 {
 	size_t	aligning_size;
-	block_t	*alloc;
+	t_block	*alloc;
 
 	if ((int)size < 0)
 		return (NULL);
 	pthread_mutex_lock(&g_mutex);
 	aligning_size = ft_memory_aligning(size, HEX);
 	ft_init_type(aligning_size);
-	if (!(alloc = ft_find_place(&g_alloc_map.map[g_alloc_map.type], aligning_size)))
+	if (!(alloc = ft_find_place(&g_alloc_map.map[g_alloc_map.type],
+			aligning_size)))
 	{
 		pthread_mutex_unlock(&g_mutex);
 		return (NULL);
@@ -46,5 +61,5 @@ void		*malloc(size_t size)
 		fr_splitmap(&alloc, aligning_size);
 	alloc->status = ALLOC;
 	pthread_mutex_unlock(&g_mutex);
-	return ((void*)alloc + ft_memory_aligning(sizeof(block_t), HEX));
+	return ((void*)alloc + ft_memory_aligning(sizeof(t_block), HEX));
 }

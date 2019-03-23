@@ -1,25 +1,40 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   find_place.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: amovchan <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/03/23 19:29:18 by amovchan          #+#    #+#             */
+/*   Updated: 2019/03/23 20:09:49 by amovchan         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ft_malloc.h"
 
 static size_t	ft_getsize(size_t size)
 {
 	if (g_alloc_map.type == TINY)
-		return (ft_memory_aligning(TINY_MAX_SIZE * ALLOCATIONS, (size_t)getpagesize()));
+		return (ft_memory_aligning(TINY_MAX_SIZE * ALLOCATIONS,
+			(size_t)getpagesize()));
 	if (g_alloc_map.type == SMALL)
-		return (ft_memory_aligning(SMALL_MAX_SIZE * ALLOCATIONS, (size_t)getpagesize()));
+		return (ft_memory_aligning(SMALL_MAX_SIZE * ALLOCATIONS,
+			(size_t)getpagesize()));
 	else
 		return (ft_memory_aligning(size, (size_t)getpagesize()));
 }
 
-static block_t	*ft_map_place(size_t size, block_t **alloc)
+static t_block	*ft_map_place(size_t size, t_block **alloc)
 {
 	size_t	size_page;
-	block_t	*new_block;
+	t_block	*new_block;
 
 	size_page = ft_getsize(size);
-	if ((new_block = mmap(0, size_page, PROT_READ | PROT_WRITE, MAP_ANON | MAP_PRIVATE, -1, 0)) == MAP_FAILED)
+	if ((new_block = mmap(0, size_page, PROT_READ | PROT_WRITE, MAP_ANON |
+					MAP_PRIVATE, -1, 0)) == MAP_FAILED)
 		return (NULL);
 	new_block->status = FREE;
-	new_block->size = size_page - ft_memory_aligning(sizeof(block_t), HEX);
+	new_block->size = size_page - ft_memory_aligning(sizeof(t_block), HEX);
 	new_block->next = NULL;
 	new_block->prev = *alloc;
 	if (*alloc)
@@ -27,9 +42,9 @@ static block_t	*ft_map_place(size_t size, block_t **alloc)
 	return (new_block);
 }
 
-static block_t	*find_free_place(size_t size, block_t **alloc)
+static t_block	*find_free_place(size_t size, t_block **alloc)
 {
-	block_t	*block;
+	t_block	*block;
 
 	block = *alloc;
 	while (block && block->next)
@@ -41,9 +56,9 @@ static block_t	*find_free_place(size_t size, block_t **alloc)
 	return (block);
 }
 
-block_t			*ft_find_place(block_t **alloc, size_t size)
+t_block			*ft_find_place(t_block **alloc, size_t size)
 {
-	block_t	*block;
+	t_block	*block;
 
 	if (!*alloc)
 		return ((*alloc = ft_map_place(size, alloc)));
@@ -54,14 +69,14 @@ block_t			*ft_find_place(block_t **alloc, size_t size)
 		return (block);
 }
 
-block_t	*ft_find_in_map(void *ptr)
+t_block			*ft_find_in_map(void *ptr)
 {
 	void	*ptr1;
-	block_t	*block;
+	t_block	*block;
 	int		i;
 
 	i = -1;
-	ptr1 = ptr - ft_memory_aligning(sizeof(block_t), HEX);
+	ptr1 = ptr - ft_memory_aligning(sizeof(t_block), HEX);
 	while (++i < COUNT_ZONE)
 	{
 		block = g_alloc_map.map[i];
@@ -69,7 +84,7 @@ block_t	*ft_find_in_map(void *ptr)
 		{
 			if ((char*)block == (char*)ptr1)
 			{
-				g_alloc_map.type = (block_type_t)i;
+				g_alloc_map.type = (t_block_type)i;
 				return (block);
 			}
 			block = block->next;

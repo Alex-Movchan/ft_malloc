@@ -1,10 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_free.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: amovchan <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/03/23 19:38:24 by amovchan          #+#    #+#             */
+/*   Updated: 2019/03/23 19:49:34 by amovchan         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ft_malloc.h"
 
-static bool	ft_joinblock(block_t *block1, block_t *block2)
+static bool	ft_joinblock(t_block *block1, t_block *block2)
 {
 	size_t	size_head;
 
-	size_head = ft_memory_aligning(sizeof(block_t), HEX);
+	size_head = ft_memory_aligning(sizeof(t_block), HEX);
 	if ((char *)block1 + size_head + block1->size == (char *)block2)
 	{
 		block1->size += (size_head + block2->size);
@@ -16,7 +28,7 @@ static bool	ft_joinblock(block_t *block1, block_t *block2)
 	return (false);
 }
 
-void	ft_free_on_map(block_t *block)
+void		ft_free_on_map(t_block *block)
 {
 	if (g_alloc_map.type == LARGE)
 	{
@@ -26,7 +38,7 @@ void	ft_free_on_map(block_t *block)
 			block->prev->next = block->next;
 		if (g_alloc_map.map[LARGE] == block)
 			g_alloc_map.map[LARGE] = block->next;
-		munmap(block, block->size + ft_memory_aligning(sizeof(block_t), HEX));
+		munmap(block, block->size + ft_memory_aligning(sizeof(t_block), HEX));
 		return ;
 	}
 	block->status = FREE;
@@ -36,9 +48,9 @@ void	ft_free_on_map(block_t *block)
 		ft_joinblock(block->prev, block);
 }
 
-void	free(void *ptr)
+void		free(void *ptr)
 {
-	block_t	*block;
+	t_block	*block;
 
 	if (!ptr)
 		return ;
