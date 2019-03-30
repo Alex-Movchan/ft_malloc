@@ -35,6 +35,7 @@
 # define ENABLE "1"
 # define DISABLE "0"
 
+
 typedef enum			e_status
 {
 	FREE = 0,
@@ -98,6 +99,8 @@ void    ft_ptint_history_free(t_block *block);
 void    ft_print_join_dbg(t_block *block1, t_block *block2);
 size_t		ft_print_block_stat(t_block *block);
 void    ft_print_getmem_dbg(size_t size);
+void		t_print_block_stat_dbg(t_block *block);
+void    ft_print_memover_dbg(void);
 
 
 #endif

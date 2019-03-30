@@ -21,7 +21,8 @@ SRCS = ft_realloc.c \
 	ft_show_alloc_mem_hex.c \
 	find_place.c \
 	ft_print_tool.c \
-	ft_print_debug.c
+	ft_print_debug.c \
+	ft_print_history.c
 
 OBJ = ft_realloc.o \
 	ft_puts.o \
@@ -33,7 +34,8 @@ OBJ = ft_realloc.o \
 	ft_show_alloc_mem_hex.o \
 	find_place.o \
 	ft_print_tool.o \
-	ft_print_debug.o
+	ft_print_debug.o \
+	ft_print_history.o
 
 all: $(NAME)
 

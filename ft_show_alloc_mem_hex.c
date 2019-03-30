@@ -77,8 +77,8 @@ static void	ft_display_mem_hex(t_block *block)
 
 void		show_alloc_mem_hex(void)
 {
-	static char		*zon[3];
-	int				i;
+	int		i;
+	char	*zon[COUNT_ZONE];
 
 	zon[0] = "TINY";
 	zon[1] = "SMALL";

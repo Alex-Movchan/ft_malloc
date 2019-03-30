@@ -30,7 +30,7 @@ size_t	ft_print_block_stat(t_block *block)
 
 }
 
-static void		t_print_block_stat_dbg(t_block *block)
+void		t_print_block_stat_dbg(t_block *block)
 {
 	char	*start;
 	char	*end;
@@ -38,7 +38,6 @@ static void		t_print_block_stat_dbg(t_block *block)
 	start = (char *)block + ft_memory_aligning(sizeof(t_block), HEX);
 	end = (char *)block + block->size + ft_memory_aligning(
 			sizeof(t_block), HEX);
-	ft_putstr_fd("MALLOC DEBUG:  Allocated free block ", STDERR_FILENO);
 	ft_putnbrdase_fd((unsigned long long)start, STDERR_FILENO, HEX);
 	ft_putstr_fd(" - ", STDERR_FILENO);
 	ft_putnbrdase_fd((unsigned long long)end, STDERR_FILENO, HEX);
@@ -59,7 +58,10 @@ static size_t	ft_display_zone(t_block *block)
 			total += ft_print_block_stat(block);
 		}
 		else if (g_alloc_map.flag & MALLOC_DEBUG_FLAG)
+		{
+			ft_putstr_fd("MALLOC DEBUG:  Allocated free block ", STDERR_FILENO);
 			t_print_block_stat_dbg(block);
+		}
 		block = block->next;
 	}
 	return (total);
@@ -69,9 +71,10 @@ static size_t	ft_display_memmap(t_block *block)
 {
 	if (!block)
 	{
-		ft_putendl("NONE");
+		ft_putendl(" : NONE");
 		return (0);
 	}
+	ft_putstr(" : ");
 	ft_puthexaddr((unsigned long long)block);
 	ft_putchar('\n');
 	while (block->prev)
@@ -85,9 +88,9 @@ void			show_alloc_mem(void)
 	size_t		total;
 	int			i;
 
-	zon[0] = "TINY : ";
-	zon[1] = "SMALL : ";
-	zon[2] = "LARGE : ";
+	zon[0] = "TINY";
+	zon[1] = "SMALL";
+	zon[2] = "LARGE";
 	i = -1;
 	total = 0;
 	pthread_mutex_lock(&g_mutex);
