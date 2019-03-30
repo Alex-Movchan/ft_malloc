@@ -30,6 +30,16 @@ size_t	ft_memory_aligning(size_t size, size_t alignment)
 		return ((size - 1) / alignment * alignment + alignment);
 }
 
+int		ft_strcmp(const char *s1, const char *s2)
+{
+	while (*s1 == *s2 && *s1)
+	{
+		s1++;
+		s2++;
+	}
+	return (*((unsigned char *)s1) - *((unsigned char *)s2));
+}
+
 int		ft_isprint(int c)
 {
 	if (c >= 32 && c <= 126)

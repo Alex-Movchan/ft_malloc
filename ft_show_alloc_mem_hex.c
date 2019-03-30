@@ -65,8 +65,12 @@ static void	ft_display_mem_hex(t_block *block)
 	while (block)
 	{
 		if (block->status == ALLOC)
-			ft_print_dump_hex((unsigned char *)block +
-					ft_memory_aligning(sizeof(t_block), HEX), block->size);
+		{
+			ft_putstr("Allocated block: ");
+			ft_print_block_stat(block);
+			ft_print_dump_hex((unsigned char *) block +
+				  ft_memory_aligning(sizeof(t_block), HEX), block->size);
+		}
 		block = block->next;
 	}
 }
@@ -86,7 +90,7 @@ void		show_alloc_mem_hex(void)
 		ft_putstr(zon[i]);
 		if (g_alloc_map.map[i])
 		{
-			ft_putendl("\t\t\t\t\t\t\t\tHEX\t\t\t\t\t\t\t\t\tASCII");
+			ft_putendl("\t\tHEX\t\t\t\t\t\tASCII");
 			ft_display_mem_hex(g_alloc_map.map[i]);
 		}
 		else

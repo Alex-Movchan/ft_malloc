@@ -12,28 +12,54 @@
 
 #include "ft_malloc.h"
 
+size_t	ft_print_block_stat(t_block *block)
+{
+	char	*start;
+	char	*end;
+
+	start = (char *)block + ft_memory_aligning(sizeof(t_block), HEX);
+	end = (char *)block + block->size + ft_memory_aligning(
+			sizeof(t_block), HEX);
+	ft_puthexaddr((unsigned long long)start);
+	ft_putstr(" - ");
+	ft_puthexaddr((unsigned long long)end);
+	ft_putstr(" : ");
+	ft_putnbr(end - start);
+	ft_putendl(" bytes");
+	return (end - start);
+
+}
+
+static void		t_print_block_stat_dbg(t_block *block)
+{
+	char	*start;
+	char	*end;
+
+	start = (char *)block + ft_memory_aligning(sizeof(t_block), HEX);
+	end = (char *)block + block->size + ft_memory_aligning(
+			sizeof(t_block), HEX);
+	ft_putstr_fd("MALLOC DEBUG:  Allocated free block ", STDERR_FILENO);
+	ft_putnbrdase_fd((unsigned long long)start, STDERR_FILENO, HEX);
+	ft_putstr_fd(" - ", STDERR_FILENO);
+	ft_putnbrdase_fd((unsigned long long)end, STDERR_FILENO, HEX);
+	ft_putstr_fd(" : ", STDERR_FILENO);
+	ft_putnbrdase_fd((unsigned long long)(end - start), STDERR_FILENO, DEX);
+	ft_putendl_fd(" bytes", STDERR_FILENO);
+}
+
 static size_t	ft_display_zone(t_block *block)
 {
 	size_t	total;
-	char	*start;
-	char	*end;
 
 	total = 0;
 	while (block)
 	{
-		if (block->status == ALLOC)
+		if (block->status == ALLOC )
 		{
-			start = (char *)block + ft_memory_aligning(sizeof(t_block), HEX);
-			end = (char *)block + block->size + ft_memory_aligning(
-				sizeof(t_block), HEX);
-			ft_puthexaddr((unsigned long long)start);
-			ft_putstr(" - ");
-			ft_puthexaddr((unsigned long long)end);
-			ft_putstr(" : ");
-			ft_putnbr(end - start);
-			ft_putendl(" bytes");
-			total += (end - start);
+			total += ft_print_block_stat(block);
 		}
+		else if (g_alloc_map.flag & MALLOC_DEBUG_FLAG)
+			t_print_block_stat_dbg(block);
 		block = block->next;
 	}
 	return (total);
