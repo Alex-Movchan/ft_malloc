@@ -26,8 +26,8 @@
 # define DEX 10
 # define ALLOCATIONS 100
 # define COUNT_ZONE 3
-# define MALLOC_DEBUG_FLAG 1 << 3
-# define MALLOC_HISTORY_FLAG 1 << 2
+# define MALLOC_DBG 1 << 3
+# define MALLOC_HST 1 << 2
 # define MALLOC_UNKNOW_FLAG 0
 # define MALLOC_VALID_FLAG 1 << 1
 # define MALLOC_HISTORY "MALLOC_HISTORY"

@@ -17,7 +17,7 @@ static void	*ft_realocation(t_block *block, void *ptr, size_t size)
 	void				*new_ptr;
 	t_block_type		old_type;
 
-    g_alloc_map.flag & MALLOC_HISTORY_FLAG ?
+    g_alloc_map.flag & MALLOC_HST ?
     ft_print_history_realloc(block, (unsigned long long)ptr, size): 0;
     old_type = g_alloc_map.type;
 	pthread_mutex_unlock(&g_mutex);
@@ -43,13 +43,13 @@ void		*realloc(void *ptr, size_t size)
 	if (!(alloc = ft_find_in_map(ptr)))
 	{
         pthread_mutex_unlock(&g_mutex);
-        g_alloc_map.flag & MALLOC_DEBUG_FLAG ? ft_debug_wrong_ptr(ptr): 0;
+        g_alloc_map.flag & MALLOC_HST ? ft_debug_wrong_ptr(ptr): 0;
 		return (NULL);
 	}
 	if (ft_memory_aligning(size, HEX) <= alloc->size)
 	{
 		pthread_mutex_unlock(&g_mutex);
-        g_alloc_map.flag & MALLOC_HISTORY_FLAG ? ft_pting_hystory(size, alloc): 0;
+        g_alloc_map.flag & MALLOC_HST ? ft_pting_hystory(size, alloc): 0;
         return (ptr);
 	}
 	return (ft_realocation(alloc, ptr, size));

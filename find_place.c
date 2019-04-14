@@ -6,7 +6,7 @@
 /*   By: amovchan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/23 19:29:18 by amovchan          #+#    #+#             */
-/*   Updated: 2019/03/24 17:03:39 by amovchan         ###   ########.fr       */
+/*   Updated: 2019/03/31 01:59:56 by amovchan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,14 +34,14 @@ static t_block	*ft_map_place(size_t size, t_block **alloc)
 	t_block	*new_block;
 
 	size_page = ft_getsize(size);
-	g_alloc_map.flag & MALLOC_DEBUG_FLAG ? ft_print_getmem_dbg(size_page) : 0;
+	g_alloc_map.flag & MALLOC_DBG ? ft_print_getmem_dbg(size_page) : 0;
 	if ((new_block = mmap(0, size_page, PROT_READ | PROT_WRITE, MAP_ANON |
 					MAP_PRIVATE, -1, 0)) == MAP_FAILED)
 	{
-		g_alloc_map.flag & MALLOC_DEBUG_FLAG ? ft_putendl_fd(" FAILURE", STDERR_FILENO) : 0;
+		g_alloc_map.flag & MALLOC_DBG ? ft_putendl_fd(" FAILURE", STDERR_FILENO) : 0;
 		return (NULL);
 	}
-	g_alloc_map.flag & MALLOC_DEBUG_FLAG ? ft_putendl_fd(" SUCCESS", STDERR_FILENO) : 0;
+	g_alloc_map.flag & MALLOC_DBG ? ft_putendl_fd(" SUCCESS", STDERR_FILENO) : 0;
 	new_block->status = FREE;
 	new_block->size = size_page - ft_memory_aligning(sizeof(t_block), HEX);
 	new_block->next = NULL;
@@ -75,7 +75,7 @@ t_block			*ft_find_place(t_block **alloc, size_t size)
 	block = find_free_place(size, alloc);
 	if (block->status != FREE || block->size < size)
 	{
-		g_alloc_map.flag & MALLOC_DEBUG_FLAG ? ft_print_memover_dbg() : 0;
+		g_alloc_map.flag & MALLOC_DBG ? ft_print_memover_dbg() : 0;
 		return (ft_map_place(size, &block));
 	}
 	else

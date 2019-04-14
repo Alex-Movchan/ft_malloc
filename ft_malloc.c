@@ -52,10 +52,10 @@ void		ft_env_get_flags(void)
 	data = &g_alloc_map;
 	if ((ptr = getenv(MALLOC_HISTORY)) && !ft_strcmp(ENABLE, ptr))
 	{
-		data->flag |= MALLOC_HISTORY_FLAG;
+		data->flag |= MALLOC_HST;
 	}
 	if ((ptr = getenv(MALLOC_DEBUG)) && !ft_strcmp(ENABLE, ptr))
-		data->flag |= MALLOC_DEBUG_FLAG;
+		data->flag |= MALLOC_DBG;
 	data->flag |= MALLOC_VALID_FLAG;
 }
 
@@ -78,6 +78,6 @@ void		*malloc(size_t size)
 	}
 	fr_splitmap(&alloc, aligning_size);
 	pthread_mutex_unlock(&g_mutex);
-	g_alloc_map.flag & MALLOC_HISTORY_FLAG ? ft_pting_hystory(size, alloc): 0;
+	g_alloc_map.flag & MALLOC_HST ? ft_pting_hystory(size, alloc): 0;
 	return ((void*)alloc + ft_memory_aligning(sizeof(t_block), HEX));
 }
