@@ -6,7 +6,7 @@
 /*   By: amovchan <amovchan@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/23 19:07:13 by amovchan          #+#    #+#             */
-/*   Updated: 2019/03/23 22:09:22 by amovchan         ###   ########.fr       */
+/*   Updated: 2019/04/14 21:45:39 by amovchan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,10 @@ static void	fr_splitmap(t_block **map, size_t size)
 
 	if ((*map)->size > size && g_alloc_map.type != LARGE)
 	{
-		alloc = (t_block *) ((char *) (*map) + size +
-							 ft_memory_aligning(sizeof(t_block), HEX));
+		alloc = (t_block *)((char *)(*map) + size +
+				ft_memory_aligning(sizeof(t_block), HEX));
 		alloc->size = (*map)->size - size -
-					  ft_memory_aligning(sizeof(t_block), HEX);
+				ft_memory_aligning(sizeof(t_block), HEX);
 		alloc->status = FREE;
 		alloc->prev = *map;
 		if ((*map)->next)
@@ -49,6 +49,7 @@ void		ft_env_get_flags(void)
 {
 	t_alloc_map		*data;
 	char			*ptr;
+
 	data = &g_alloc_map;
 	if ((ptr = getenv(MALLOC_HISTORY)) && !ft_strcmp(ENABLE, ptr))
 	{
@@ -78,6 +79,6 @@ void		*malloc(size_t size)
 	}
 	fr_splitmap(&alloc, aligning_size);
 	pthread_mutex_unlock(&g_mutex);
-	g_alloc_map.flag & MALLOC_HST ? ft_pting_hystory(size, alloc): 0;
+	g_alloc_map.flag & MALLOC_HST ? ft_pting_hystory(size, alloc) : 0;
 	return ((void*)alloc + ft_memory_aligning(sizeof(t_block), HEX));
 }

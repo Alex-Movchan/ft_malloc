@@ -6,13 +6,13 @@
 /*   By: amovchan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/23 19:56:17 by amovchan          #+#    #+#             */
-/*   Updated: 2019/03/23 19:57:41 by amovchan         ###   ########.fr       */
+/*   Updated: 2019/04/16 15:43:35 by amovchan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_malloc.h"
 
-size_t	ft_print_block_stat(t_block *block)
+size_t			ft_print_block_stat(t_block *block)
 {
 	char	*start;
 	char	*end;
@@ -27,10 +27,9 @@ size_t	ft_print_block_stat(t_block *block)
 	ft_putnbr(end - start);
 	ft_putendl(" bytes");
 	return (end - start);
-
 }
 
-void		t_print_block_stat_dbg(t_block *block)
+void			t_print_block_stat_dbg(t_block *block)
 {
 	char	*start;
 	char	*end;
@@ -53,11 +52,11 @@ static size_t	ft_display_zone(t_block *block)
 	total = 0;
 	while (block)
 	{
-		if (block->status == ALLOC )
+		if (block->status == ALLOC)
 		{
 			total += ft_print_block_stat(block);
 		}
-		else if (g_alloc_map.flag & MALLOC_DEBUG_FLAG)
+		else if (g_alloc_map.flag & MALLOC_DBG)
 		{
 			ft_putstr_fd("MALLOC DEBUG:  Allocated free block ", STDERR_FILENO);
 			t_print_block_stat_dbg(block);

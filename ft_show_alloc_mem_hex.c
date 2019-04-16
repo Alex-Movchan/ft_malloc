@@ -6,7 +6,7 @@
 /*   By: amovchan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/23 19:57:47 by amovchan          #+#    #+#             */
-/*   Updated: 2019/03/23 20:05:01 by amovchan         ###   ########.fr       */
+/*   Updated: 2019/04/16 15:35:59 by amovchan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,8 +68,8 @@ static void	ft_display_mem_hex(t_block *block)
 		{
 			ft_putstr("Allocated block: ");
 			ft_print_block_stat(block);
-			ft_print_dump_hex((unsigned char *) block +
-				  ft_memory_aligning(sizeof(t_block), HEX), block->size);
+			ft_print_dump_hex((unsigned char *)block +
+				ft_memory_aligning(sizeof(t_block), HEX), block->size);
 		}
 		block = block->next;
 	}
